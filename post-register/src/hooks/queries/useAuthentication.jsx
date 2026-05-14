@@ -5,7 +5,7 @@ async function requestAuthentication(accessToken) {
     if (!accessToken) {
         throw {
             status: 403,
-            data: "AccessToken이 유요하지 않습니다."
+            data: "AccessToken이 유효하지 않습니다."
         }
     }
     const accessTokenObj = JSON.parse(accessToken);
@@ -34,7 +34,14 @@ export function useAuthentication(accessToken) {
                 return error;
             }
 
-        }
+        },
+
+        // 시간(2분)이 지나면 신선하지 않음
+        staleTime: 1000 * 60 * 2,
+
+        // 시간(5분)이 지나면 쓰레기
+        gcTime: 1000 * 60 * 5,
+
 
     });
 }

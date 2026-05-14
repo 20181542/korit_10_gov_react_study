@@ -1,10 +1,12 @@
-import { data, Link } from "react-router";
+import { data, Link, useNavigate } from "react-router";
 import PasswordInput from "../../components/PasswordInput/PasswordInput";
 import Textinput from "../../components/Textinput/Textinput";
 import * as s from "./styles";
 import { useState } from "react";
 
 function Signin() {
+
+    const navigate = useNavigate();
 
     const [ inputValues, setInputValues ] = useState({
         email: "test1234@gmail.com",
@@ -41,6 +43,9 @@ function Signin() {
         try {
             const response = await requestSignin(inputValues.email, inputValues.password);
             localStorage.setItem("accessToken", response.data.accessToken);
+            navigate("/", {
+                replace: true,
+            });
         } catch (error) {
             alert(error.data);
         }
