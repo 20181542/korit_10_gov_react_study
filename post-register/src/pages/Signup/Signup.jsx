@@ -6,7 +6,7 @@ import { BiUserPlus } from "react-icons/bi";
 
 function Signup() {
 
-   return (
+    return (
         <div css={s.layout}>
             <div css={s.header} >
                 <h2>계정만들기</h2>
@@ -31,7 +31,7 @@ function Signup() {
                 <div>
                     <button css={s.signupButton} ><BiUserPlus /> 회원가입</button>
                 </div>
-                
+
             </div>
         </div>
     )

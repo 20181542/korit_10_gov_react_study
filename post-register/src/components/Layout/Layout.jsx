@@ -1,17 +1,18 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import * as s from "./styles";
 
 function Layout({children}) {
 
-   return (
-        <>
-        <div css={s.layout}>
-            <div css={s.container}>
-                {children}
-            </div>
+    const {pathname} = useLocation();
 
-        </div>
-           
+
+    return (
+        <>
+            <div css={s.layout}>
+                <div css={s.container(pathname.startsWith("/auth/") ? "none" : "full")}>
+                    {children}
+                </div>
+            </div>
         </>
     )
 }
