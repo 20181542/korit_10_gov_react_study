@@ -7,12 +7,18 @@ import Button from "../../components/Button/Button";
 import Select from "react-select";
 import { PiPaperPlaneTiltLight } from "react-icons/pi";
 import { useAuthentication } from "../../hooks/queries/useAuthentication";
-import { replace, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import Header from "../../components/Header/Header";
 
 
 
 function PostRegister() {
-    const navigate = useNavigate;
+
+    
+
+    
+
+    const navigate = useNavigate();
     const authentication = useAuthentication(localStorage.getItem("accessToken"))
 
     const [interval, setInterval] = useState(null);
@@ -34,7 +40,7 @@ function PostRegister() {
 
 
     const readFileDataUrl = (file) => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const fileReader = new FileReader();
             fileReader.onload = (e) => {
                 resolve(e.target.result);
@@ -86,12 +92,15 @@ function PostRegister() {
     const handleSubmitOnClick = () => {
         let posts = JSON.parse(localStorage.getItem("posts"));
         posts = posts ?? [];
+        const ids = posts.map(post => post.id)
+        const newId = Math.max(...ids, 0) + 1;
         const newPost = {
+            "id": newId,
             "title": title,
             "content": value,
             "thumbnail": thumbnail,
             "category": category,
-            "postingData": new Date(),
+            "postingDate": new Date(),
             "user": authentication.data.data,
         }
         posts = [...posts, newPost]
@@ -108,7 +117,7 @@ function PostRegister() {
     useEffect(() => {
         const tempPostJson = localStorage.getItem("tempPost")
         if (!!tempPostJson) {
-            const setTitle = JSON.parse(tempPostJson);
+            const tempPost = JSON.parse(tempPostJson);
             setTitle(tempPost.title);
             setValue(tempPost.content);
             setThumbnail(tempPost.thumbnail);
@@ -137,49 +146,50 @@ function PostRegister() {
 
     return (
         <div css={s.wrap}>
-            <header>
-                <div css={s.layout}>
+            <Header />
+            <div css={s.layout}>
+                <main css={s.main}>
                     <div css={s.titleInput}>
                         <Textinput placeholder={"작성하실 글의 제목을 입력해주세요."} value={title} onChange={handleTitleOnChange} />
                     </div>
-                    <main css={s.main}>
-                        <MDEditor
-                            value={value}
-                            onChange={setValue}
-                            data-color-mode="light"
-                            height={"500px"}
-                            css={s.editer}
-                        />
-                    </main>
-                    <aside css={s.sidebar}>
-                        <div css={s.thumbnail(thumbnail.dataUrl)}>
-                            <label>썸네일</label>
-                            <div onClick={handleThumbnailOnClick}>
-                                {
-                                    !thumbnail.dataUrl &&
-                                    <>
-                                        <BiImageAdd />
-                                        <p>이미지 업로드</p>
-                                    </>
-                                }
-                            </div>
-                            <Button onClick={() => setThumbnail({ file: null, dataUrl: null })}>썸네일 삭제</Button>
+
+                    <MDEditor
+                        value={value}
+                        onChange={setValue}
+                        data-color-mode="light"
+                        height={"500px"}
+                        css={s.editer}
+                    />
+                </main>
+                <aside css={s.sidebar}>
+                    <div css={s.thumbnail(thumbnail.dataUrl)}>
+                        <label>썸네일</label>
+                        <div onClick={handleThumbnailOnClick}>
+                            {
+                                !thumbnail.dataUrl &&
+                                <>
+                                    <BiImageAdd />
+                                    <p>이미지 업로드</p>
+                                </>
+                            }
                         </div>
-                        <div css={s.categories}>
-                            <label>카테고리</label>
-                            {/* options 에는 배열이 들어감 */}
-                            <Select options={options}
-                                defaultValue={options[0]}
-                                value={options.find(option => option.value === category)}
-                                onChange={handleCategoryOnChange} />
-                        </div>
-                        <div css={s.submitButtonGroup} >
-                            <Button onClick={handleTempSaveOnClick}>임시저장</Button>
-                            <Button onClick={handleSubmitOnClick}><PiPaperPlaneTiltLight />발행하기</Button>
-                        </div>
-                    </aside>
-                </div>
-            </header>
+                        <Button onClick={() => setThumbnail({ file: null, dataUrl: null })}>썸네일 삭제</Button>
+                    </div>
+                    <div css={s.categories}>
+                        <label>카테고리</label>
+                        {/* options 에는 배열이 들어감 */}
+                        <Select options={options}
+                            defaultValue={options[0]}
+                            value={options.find(option => option.value === category)}
+                            onChange={handleCategoryOnChange} />
+                    </div>
+                    <div css={s.submitButtonGroup} >
+                        <Button onClick={handleTempSaveOnClick}>임시저장</Button>
+                        <Button onClick={handleSubmitOnClick}><PiPaperPlaneTiltLight />발행하기</Button>
+                    </div>
+                </aside>
+            </div>
+
         </div>
     )
 }

@@ -41,11 +41,14 @@ transition: 0.1s ease-in-out;
     box-sizing: border-box;
     border: 1px solid #dbdddb;
     border-radius: 10px;
-    padding: 20px;
     width: 300px;
     height: 250px;
     background-color: #ffffff;
+    overflow: hidden;
     cursor: pointer;
+    & > div, & > footer {
+        padding: 10px;
+    }
 
     &:hover {
         box-shadow: 0 0 10px 5px #ffffff88;
@@ -55,6 +58,18 @@ transition: 0.1s ease-in-out;
 
     }
 `;
+
+export const cardThumbnail = (url) => css`
+    width: 100%;
+    height: 100px;
+    background-image: url("${url}");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #f3f2ec;
+`;
+
+
 
 export const pagination = css`
     display: flex;
