@@ -8,13 +8,13 @@ function AuthRoutes() {
 
    return (
       <AuthLayout>
-        <Routes>
-           <Route path="/signup" element={<Signup /> } />
-           <Route path="/signin" element={<Signin /> } />
-        </Routes>
+         <Routes>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={<Signin />} />
+         </Routes>
       </AuthLayout>
-        
-    )
+
+   )
 }
 
 export default AuthRoutes;
