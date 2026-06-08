@@ -64,6 +64,7 @@ function Restaurants() {
             [e.target.name]: e.target.value,
         }));
     }
+    
     const handleRegisterOnClick = () => {
 
         const requestBody = JSON.stringify(inputValues);

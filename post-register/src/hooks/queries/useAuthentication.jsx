@@ -10,7 +10,7 @@ async function requestAuthentication(accessToken) {
     }
     const accessTokenObj = JSON.parse(accessToken);
     if (secret !== accessTokenObj.secret) {
-         throw {
+        throw {
             status: 403,
             data: "AccessToken이 유효하지 않습니다."
         }
